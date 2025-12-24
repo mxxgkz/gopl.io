@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"sync"
 
 	"gopl.io/ch1/lissajous/lissajous"
@@ -24,7 +25,16 @@ func main() {
 		mu.Lock()
 		count++
 		mu.Unlock()
-		lissajous.Lissajous(w)
+		
+		// Parse cycles parameter from URL, default to 5
+		cycles := 5
+		if val := r.URL.Query().Get("cycles"); val != "" {
+			if parsed, err := strconv.Atoi(val); err == nil {
+				cycles = parsed
+			}
+		}
+		
+		lissajous.Lissajous(w, cycles)
 	}
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/count", counter)

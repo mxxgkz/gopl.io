@@ -65,3 +65,41 @@ go mod tidy
 go list -m all
 ```
 
+### Server5 - Surface Web Server
+```bash
+# Run the server
+go run ./ch1/server5/main.go
+
+# Run in background
+go run ./ch1/server5/main.go &
+```
+
+**URL Parameters:**
+- `width`: Canvas width in pixels (default: 600)
+- `height`: Canvas height in pixels (default: 320)
+- `color`: Set to `false` for white fill, otherwise colored by height (default: colored)
+
+**Examples:**
+```bash
+# Default (600x320, colored)
+http://localhost:8000/
+
+# Custom size, colored
+http://localhost:8000/?width=800&height=400
+
+# Custom size, white fill
+http://localhost:8000/?width=800&height=400&color=false
+
+# Only change width
+http://localhost:8000/?width=1000
+
+# Only change height
+http://localhost:8000/?height=500
+
+# Save SVG output
+curl "http://localhost:8000/?width=800&height=400" > surface.svg
+
+# View request count
+http://localhost:8000/count
+```
+
